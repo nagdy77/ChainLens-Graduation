@@ -1,0 +1,231 @@
+@import 'tailwindcss';
+@import '@xyflow/react/dist/style.css';
+
+@theme {
+  /* Core surfaces */
+  --color-bg: #080d18;
+  --color-panel: #101827;
+  --color-surface: #172235;
+  --color-surface-2: #1d2a40;
+  --color-border: #26344b;
+  --color-border-soft: #1e2a3f;
+
+  /* Accents */
+  --color-cyan: #22d3ee;
+  --color-cyan-dim: #0e7490;
+  --color-violet: #a78bfa;
+  --color-violet-dim: #6d28d9;
+
+  /* Text */
+  --color-text: #e8eef7;
+  --color-muted: #94a3b8;
+  --color-faint: #64748b;
+
+  /* Severity / status */
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-critical: #fb7185;
+  --color-info: #38bdf8;
+
+  /* Typography */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  /* Radii */
+  --radius-card: 12px;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #26344b transparent;
+}
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #26344b;
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #33436080;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid var(--color-cyan);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Utility: faint grid backdrop used on canvases */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(38, 52, 75, 0.35) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(38, 52, 75, 0.35) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ---- React Flow theming ---- */
+.react-flow {
+  --xy-background-color: transparent;
+  background-color: transparent;
+}
+.react-flow__attribution {
+  display: none;
+}
+.react-flow__controls {
+  box-shadow: none;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.react-flow__controls-button {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  width: 30px;
+  height: 30px;
+}
+.react-flow__controls-button:hover {
+  background: var(--color-surface-2);
+}
+.react-flow__controls-button svg {
+  fill: var(--color-muted);
+  max-width: 14px;
+  max-height: 14px;
+}
+.react-flow__edge-path {
+  stroke-width: 1.5;
+}
+.react-flow__edge.selected .react-flow__edge-path,
+.react-flow__edge:focus .react-flow__edge-path {
+  stroke: var(--color-cyan);
+}
+.react-flow__edge-text {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  fill: var(--color-muted);
+}
+.react-flow__edge-textbg {
+  fill: var(--color-panel);
+}
+.react-flow__handle {
+  opacity: 0;
+  pointer-events: none;
+}
+.react-flow__node {
+  cursor: pointer;
+}
+
+/* Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in {
+  animation: fade-in 0.28s ease both;
+}
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.animate-slide-in-right {
+  animation: slide-in-right 0.26s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.animate-pulse-dot {
+  animation: pulse-dot 1.4s ease-in-out infinite;
+}
+
+/* ---- Print stylesheet (Reports) ---- */
+@media print {
+  @page {
+    margin: 14mm;
+  }
+  html,
+  body,
+  #root {
+    height: auto !important;
+    overflow: visible !important;
+    background: #fff !important;
+    color: #0b1220 !important;
+  }
+  /* hide the app chrome: sidebar + top bar + any no-print region */
+  aside,
+  header.no-print,
+  .no-print,
+  .no-print * {
+    display: none !important;
+  }
+  /* let scroll containers expand so the whole report prints */
+  main,
+  .overflow-y-auto,
+  .overflow-auto,
+  .overflow-hidden {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .print-surface {
+    background: #fff !important;
+    color: #0b1220 !important;
+    border-color: #d5dce6 !important;
+    box-shadow: none !important;
+  }
+  .print-muted {
+    color: #44506a !important;
+  }
+  section {
+    break-inside: avoid;
+  }
+}
+.print-only {
+  display: none;
+}
